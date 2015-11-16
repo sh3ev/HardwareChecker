@@ -8,5 +8,6 @@ namespace HardwareChecker
 {
     class Cpu
     {
+        //test
     }
 }
