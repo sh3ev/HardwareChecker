@@ -7,42 +7,26 @@ using System.Management;
 
 namespace HardwareChecker
 {
-    class VGA
+    class DiskDrive
     {
         public static String GetName()
         {
-            ManagementClass mc = new ManagementClass("Win32_VideoController");
+            ManagementClass mc = new ManagementClass("Win32_DiskDrive");
             ManagementObjectCollection moc = mc.GetInstances();
             String Name = String.Empty;
 
             foreach (ManagementObject mo in moc)
             {
-                Name = mo.Properties["Name"].Value.ToString();
+                Name = mo.Properties["Model"].Value.ToString();
                 break;
             }
             return Name;
-
         }
 
-        public static String GetDriverVersion()
-        {
-            ManagementClass mc = new ManagementClass("Win32_VideoController");
-            ManagementObjectCollection moc = mc.GetInstances();
-            String Version = String.Empty;
-
-            foreach (ManagementObject mo in moc)
-            {
-                Version = mo.Properties["DriverVersion"].Value.ToString();
-                break;
-            }
-            return Version;
-
-        }
-
-        public static string GetRam()
+        public static string GetSize()
         {
             ManagementScope oMs = new ManagementScope();
-            ObjectQuery oQuery = new ObjectQuery("SELECT AdapterRAM FROM Win32_VideoController");
+            ObjectQuery oQuery = new ObjectQuery("SELECT Size FROM Win32_DiskDrive");
             ManagementObjectSearcher oSearcher = new ManagementObjectSearcher(oMs, oQuery);
             ManagementObjectCollection oCollection = oSearcher.Get();
 
@@ -50,13 +34,12 @@ namespace HardwareChecker
 
             foreach (ManagementObject obj in oCollection)
             {
-                Size = Convert.ToInt64(obj["AdapterRAM"]);
+                Size = Convert.ToInt64(obj["Size"]);
             }
-            Size = (Size / 1024) /1024 /1024;
+            Size = (Size / 1024) / 1024 / 1024;
             return Size.ToString() + " GB";
 
         }
-
-
     }
+
 }

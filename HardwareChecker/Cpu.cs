@@ -36,7 +36,7 @@ namespace HardwareChecker
                 speed = mo.Properties["MaxClockSpeed"].Value.ToString();
                 break;
             }
-            return speed;
+            return speed + " Mhz";
 
         }
 
@@ -55,6 +55,58 @@ namespace HardwareChecker
 
 
         }
+
+        public static String GetArchitecture()
+        {
+            ManagementClass mc = new ManagementClass("win32_processor");
+            ManagementObjectCollection moc = mc.GetInstances();
+            String Arch = String.Empty;
+            String a = "x86", b = "MIPS", c = "Alpha", d = "PowerPC", e = "ARM", f = "ia64", g ="x64", h = "UNKNOWN";
+
+            foreach (ManagementObject mo in moc)
+            {
+                Arch = mo.Properties["Architecture"].Value.ToString();
+                break;
+            }
+           
+            int archInt = int.Parse(Arch);
+
+            if (archInt == 0)
+            {
+                return a ;
+            }
+            if (archInt == 1)
+            {
+                return b;
+            }
+            if (archInt == 2)
+            {
+                return c;
+            }
+            if (archInt == 3)
+            {
+                return d;
+            }
+            if (archInt == 5)
+            {
+                return e;
+            }
+            if (archInt == 6)
+            {
+                return f;
+            }
+            if (archInt == 9)
+            {
+                return g;
+            }
+            else
+            {
+                return h;
+            }
+
+        }
+            
+
+        }
     }
 
-}
